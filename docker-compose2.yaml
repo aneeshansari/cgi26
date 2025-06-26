@@ -1,0 +1,21 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8099:80"
+    environment:
+      WORDPRESS_DB_HOST: mydb
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: test123
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_TABLE_PREFIX: wp_
+  mydb:
+   image: mysql:5.7
+   environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: wordpress
+   volumes:
+     #     - /data:/var/lib/mysql  # bind mount
+     - myvoldb:/var/lib/mysql # docker volume
+volumes:   # docker internal volume , define these two lines
+   myvoldb:
