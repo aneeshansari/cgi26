@@ -1,0 +1,7 @@
+docker compose up -d
+docker network ls
+pwd
+docker compose ls
+
+docker compose ps
+docker compose down
