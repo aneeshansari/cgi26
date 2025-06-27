@@ -25,3 +25,21 @@ docker service create --name logapp --mode global nginx:latest
 docker service ls
 docker service ps logapp
 
+
+
+ docker service create --name logapp --mode global nginx:latest
+ docker service ls
+ docker service ps logapp
+ history
+ docker network ls
+ docker network create appnet --driver overlay
+ docker network ls
+ docker service create --name wordpress -p 8080:80 --network appnet wordpress:latest
+ docker service ls
+ docker service ps wordpress
+ docker service create --name mydb --network appnet -e MYSQL_ROOT_PASSWORD=test123 -e MYSQL_DATABASE=wordpress mysql:5.7
+ docker service ls
+ docker service ps mydb
+ docker service ps wordpress
+
+
