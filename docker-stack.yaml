@@ -1,0 +1,14 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    deploy:
+      replicas: 1
+    ports:
+      - "8081:80"
+  mydb:
+    image: mysql:5.7
+    deploy:
+      replicas: 1
+    environment:
+       MYSQL_ROOT_PASSWORD: test123
+       MYSQL_DATABASE: wordpress
