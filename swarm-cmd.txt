@@ -43,3 +43,17 @@ docker service ps logapp
  docker service ps wordpress
 
 
+
+ docker service create --name appleapp --replicas 3 -p 8080:80 nginx:latest
+ docker service ls
+ docker service ps appleapp
+ docker service update appleapp --image httpd:latest
+ docker service ls
+ docker service ps appleapp
+ docker service rollback appleapp
+ docker service ls
+ docker service ps appleapp
+
+
+
+
