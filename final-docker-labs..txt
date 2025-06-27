@@ -1,0 +1,153 @@
+# Run a container in interactive, TTY, and detached mode using Ubuntu 22.04
+docker run -itd ubuntu:22.04
+
+# Run a container with name app1 using Ubuntu 22.04
+docker run -itd --name app1 ubuntu:22.04
+
+# List running containers
+docker ps
+
+# Run container with a name (app1/app2/app3)
+docker run --name app1 ubuntu:22.04
+docker run --name app2 ubuntu:22.04
+docker run -it --name app3 ubuntu:22.04
+
+# List all containers (running and stopped)
+docker ps -a
+
+# Attach to a running container using container ID
+docker attach 2b84911990f2
+
+# Start a stopped container
+docker start app1
+
+# Execute command in running container
+docker exec -it app1 cat /etc/passwd
+docker exec -it app1 ls
+docker exec -it app1 bash
+
+# Remove a specific container
+docker rm 2b84911990f2
+docker rm c9b99b48de53
+
+# Force remove container
+docker rm -f c9b99b48de53
+
+# Remove all stopped containers
+docker container prune
+
+# List all container IDs
+docker ps -aq
+
+# Force remove all containers
+docker rm -f $(docker ps -aq)
+
+# Run HTTP server with port mapping
+docker run -d --name app1 -p 8080:80 httpd:latest
+
+# Install tools inside container
+docker exec -it app1 bash
+apt update && apt install wget unzip -y
+
+# Download and unzip a website template
+wget https://www.tooplate.com/download/2133_moso_interior
+mv 2133_moso_interior 2133_moso_interior.zip
+unzip 2133_moso_interior.zip
+cd 2133_moso_interior
+mv * ..
+exit
+
+# Commit container as an image
+docker commit app1 app:v1
+
+# Run container from committed image
+docker run -d --name web1 -p 8080:80 app:v1
+
+# Save image to tar file
+docker save 10fbe4f57240 -o appnew-v1.tar
+
+# View contents of tar file
+tar -tvf appnew-v1.tar
+
+# Load image from tar file
+docker load -i appnew-v1.tar
+
+# List local images
+docker images
+
+# Tag image
+docker tag 10fbe4f57240 web:v1
+
+# Run new container from tagged image
+docker run -d --name web2 -p 8088:80 web:v1
+
+# GitHub container registry authentication and push
+PAT=ghmSBHixTM0bWucT
+echo $PAT | docker login ghcr.io --username aneeshansari --password-stdin
+docker tag 10fbe4f57240 ghcr.io/aneeshansari/webapp:v1
+docker push ghcr.io/aneeshansari/webapp:v1
+
+# Docker Hub authentication and push
+docker login
+docker tag web:v1 966145/web:v1
+docker push 966145/web:v1
+
+# Create directory on host for bind mount
+mkdir /data
+cd /data/
+ls
+
+# Run nginx container
+docker run -d -p 8080:80 nginx:latest
+
+# Run nginx with bind mount from /data to /usr/share/nginx/html
+docker run -d --name app1 -p 8081:80 -v /data:/usr/share/nginx/html nginx:latest
+
+# Access app1 container
+docker exec -it app1 bash
+cd /data/
+touch mango.txt
+
+# Create index.html from terminal input
+cat > index.html
+<h1> hello from bind mount</h1>
+# Press Ctrl+D to save
+
+# Run linked containers
+docker run -d --name app1 -p 8080:80 nginx:latest
+docker run -d --name app3 -p 8083:80 --link app3:app1 nginx:latest
+
+# Test internal communication
+docker exec -it app3 bash
+curl http://app1
+
+docker exec -it app1 bash
+curl http://app3
+
+# Docker Compose commands
+docker compose up -d
+docker compose ps
+docker compose down
+docker compose ls
+
+# List Docker networks
+docker network ls
+
+# Show current directory path
+pwd
+
+# Run container and view stats
+docker run -d nginx:latest
+docker stats
+# Use Ctrl+C to exit
+
+# Limit container memory and CPU
+docker run -d --name app1 --memory="256m" nginx:latest
+docker run -d --name app2 --memory="256m" --cpus 0.5 nginx:latest
+
+# System info
+lscpu
+free -h
+
+# Run container with restart policy
+docker run -d --name web1 --restart always nginx:latest
