@@ -21,3 +21,7 @@ docker service scale appleapp=2
 docker service ps appleapp
 docker service ls
 
+docker service create --name logapp --mode global nginx:latest
+docker service ls
+docker service ps logapp
+
