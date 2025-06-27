@@ -1,3 +1,106 @@
+# Show nodes in the Swarm cluster
+docker node ls
+
+# Show command to join as a worker node
+docker swarm join-token worker
+
+# Show command to join as a manager node
+docker swarm join-token manager
+
+# Promote a node to manager role
+docker node promote node1
+
+# Demote a manager to worker
+docker node demote node1
+
+# Create a replicated service (3 replicas of nginx)
+docker service create --name mangoapp --replicas 3 nginx:latest
+
+# List services in the Swarm
+docker service ls
+
+# Show tasks of mangoapp service
+docker service ps mangoapp
+
+# List running containers
+docker ps
+
+# Create replicated service with port mapping
+docker service create --name appleapp --replicas 3 -p 8080:80 nginx:latest
+
+# Show tasks of appleapp service
+docker service ps appleapp
+
+# Scale appleapp service to 7 replicas
+docker service scale appleapp=7
+
+# Scale appleapp service down to 2 replicas
+docker service scale appleapp=2
+
+# Create a global service (runs one task per node)
+docker service create --name logapp --mode global nginx:latest
+
+# Show tasks of logapp service
+docker service ps logapp
+
+# Show current Docker networks
+docker network ls
+
+# Create an overlay network for multi-host communication
+docker network create appnet --driver overlay
+
+# Create a WordPress service attached to overlay network
+docker service create --name wordpress -p 8080:80 --network appnet wordpress:latest
+
+# Create a MySQL service for WordPress with environment variables
+docker service create --name mydb --network appnet -e MYSQL_ROOT_PASSWORD=test123 -e MYSQL_DATABASE=wordpress mysql:5.7
+
+# Show tasks of wordpress and mydb services
+docker service ps wordpress
+docker service ps mydb
+
+# Update appleapp to use a different image (httpd)
+docker service update appleapp --image httpd:latest
+
+# Roll back appleapp to previous version
+docker service rollback appleapp
+
+########## Docker Stack ##########
+
+# Create and navigate to stack project directory
+mkdir myapp
+cd myapp/
+
+# Create/edit the Docker stack YAML file
+vi docker-stack.yaml
+
+# Deploy the stack using the YAML file
+docker stack deploy -c docker-stack.yaml wordpress
+
+# List deployed stacks
+docker stack ls
+
+# Show running tasks of the stack
+docker stack ps wordpress
+
+# List all services (including from stacks)
+docker service ls
+
+# View logs of a service in the stack
+docker service logs wordpress_mydb
+
+# Remove the deployed stack
+docker stack rm wordpress
+
+
+
+
+
+
+
+
+
+
 docker node ls
 docker swarm join-token worker
 docker swarm join-token manager
