@@ -54,6 +54,20 @@ docker service ps logapp
  docker service ls
  docker service ps appleapp
 
+#####  docker stack 
 
-
+ mkdir myapp
+ cd myapp/
+ vi docker-stack.yaml
+ docker stack deploy -c docker-stack.yaml wordpress
+ docker stack ls
+ docker stack ps wordpress
+ docker service ls
+ docker service logs wordpress_mydb
+ docker service ls
+ docker stack ls
+ vi docker-stack.yaml
+ docker stack ps wordpress
+ docker stack rm wordpress
+ docker stack ls
 
