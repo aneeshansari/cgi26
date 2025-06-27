@@ -1,0 +1,23 @@
+docker node ls
+docker swarm join-token worker
+docker swarm join-token manager
+docker node ls
+docker node promote node1
+docker node ls
+docker node demote node1
+docker node ls
+docker service create --name mangoapp --replicas 3 nginx:latest
+docker service ls
+docker service ps mangoapp
+docker ps
+ls
+docker service create --name appleapp --replicas 3 -p 8080:80 nginx:latest
+docker service ls
+docker service ps appleapp
+docker service scale appleapp=7
+docker service ls
+docker service ps appleapp
+docker service scale appleapp=2
+docker service ps appleapp
+docker service ls
+
